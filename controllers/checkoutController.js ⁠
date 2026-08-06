@@ -115,4 +115,32 @@ exports.placeOrder = async (req, res, next) => {
       discountPercent,
       status: "pending"
     });
+ // Decrement stock for each purchased size
+    for (const item of lineItems) {
+      const product = await Product.findById(item.productId);
+      if (!product) continue;
+
+      const size = product.sizes.find((s) => String(s.size).toUpperCase() === String(item.size).toUpperCase());
+      if (size) {
+        size.stock = Math.max(0, (size.stock || 0) - item.quantity);
+      }
+      product.stock = product.sizes.reduce((sum, s) => sum + (Number(s.stock) || 0), 0);
+      product.markModified("sizes");
+      await product.save();
+    }
+
+    await Cart.findOneAndUpdate({ user: req.session.user.id }, { items: [] }, { upsert: true });
+
+    req.session.success = "Order placed successfully.";
+    res.redirect("/checkout/thanks");
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getThanks = (req, res) => {
+  res.render("pages/thankyou", {
+    title: "Thank you · Sportify"
+  });
+};
 
