@@ -5,8 +5,7 @@ const { requireLogin } = require("../middleware/authMiddleware");
 
 router.get("/", pageController.getHome);
 router.get("/about", pageController.getAbout);
-router.get("/contact", pageController.getContact);
-router.post("/contact", pageController.postContact);
+
 router.get("/shop", pageController.getShop);
 router.get("/favorites", requireLogin, pageController.getFavoritesPage);
 router.get("/profile", requireLogin, pageController.getProfile);

@@ -13,6 +13,27 @@ exports.getAbout = (req, res) => {
   });
 };
 
+exports.getContact = (req, res) => {
+  res.render("pages/contact", {
+    title: "Contact us · Sportify",
+    activePage: "contact"
+  });
+};
+
+exports.postContact = async (req, res, next) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    if (!name || !email || !subject || !message) {
+      req.session.error = "Please fill in all fields before submitting.";
+      return res.redirect("/contact");
+    }
+    req.session.success = "Thank you for reaching out! We will get back to you soon.";
+    res.redirect("/contact");
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getShop = (req, res) => {
   const { category } = req.query;
   const selectedCategory = category ? String(category).toLowerCase() : "shopall";
