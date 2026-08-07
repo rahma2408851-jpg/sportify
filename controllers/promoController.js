@@ -1,7 +1,8 @@
 const PromoCode = require("../models/PromoCode");
-                      // ay code:url or query or whatever
+  //returns a clean promo  // raw: ay code:url or query or whatever
 function normalizeCode(raw) {
   return String(raw || "")
+         //space_ zerowidthchar_         global
     .replace(/[\s\u200b-\u200d\ufeff\u00a0]/g, "")
     .toUpperCase();
 }
@@ -12,7 +13,7 @@ exports.validatePromoCode = async (req, res, next) => {
     if (!code) {
       return res.status(400).json({ success: false, message: "Code is required." });
     }
-
+          //just one 3shan promo lazm yb2a unique
     const promo = await PromoCode.findOne({ code, active: true });
     if (!promo) {
       return res.status(404).json({ success: false, message: "Invalid or inactive promo code." });
