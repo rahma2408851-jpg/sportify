@@ -218,7 +218,7 @@ exports.putEditProduct = async (req, res, next) => {
     handleAdminError(req, res, next, `/admin/products/${req.params.id}/edit`, err);
   }
 };
-
+                                        //model,,redirect after deletion
 exports.deleteProduct = makeDeleteHandler(Product, "/admin/products", {
   successMessage: "Product deleted successfully.",
   onDeleted: (product) => product && unlinkUpload(product.image)
