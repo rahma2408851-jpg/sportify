@@ -24,7 +24,7 @@ exports.validatePromoCode = async (req, res, next) => {
     next(err);
   }
 };
-
+//de msh fe routes
 exports.lookupActivePromo = async function lookupActivePromo(code) {
   const normalized = normalizeCode(code);
   if (!normalized) return null;
