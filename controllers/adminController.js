@@ -146,6 +146,7 @@ exports.getDashboard = async (req, res, next) => {
 //PRODUCTS
 exports.getProducts = async (req, res, next) => {
   try {
+    //strores items in products
     const { items: products, page, pages } = await paginate(Product, req);
     res.render("admin/products", {
       title: "Manage products · Sportify Admin",
