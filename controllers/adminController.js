@@ -159,7 +159,7 @@ exports.getProducts = async (req, res, next) => {
     next(err);
   }
 };
-
+//admin adds new products/ msh me7tagen db interaction
 exports.getAddProduct = (req, res) => {
   res.render("admin/productForm", {
     title: "Add product · Sportify Admin",
