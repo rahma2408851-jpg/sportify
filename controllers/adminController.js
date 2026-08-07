@@ -290,7 +290,7 @@ exports.putEditOrder = async (req, res, next) => {
 
 exports.deleteOrder = makeDeleteHandler(Order, "/admin/orders", { successMessage: "Order deleted." });
 
-/* ============ PROMO CODES (super admin) ============ */
+// fetches PROMO CODES (super admin)
 exports.getPromos = async (req, res, next) => {
   try {
     const promos = await PromoCode.find().sort({ createdAt: -1 });
