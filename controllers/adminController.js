@@ -240,7 +240,7 @@ exports.toggleProductHidden = async (req, res, next) => {
   }
 };
 
-/* ============ ORDERS ============ */
+//ORDERS
 exports.getOrders = async (req, res, next) => {
   try {
     const { items: orders, page, pages } = await paginate(Order, req, { populate: ["user", "name email"] });
