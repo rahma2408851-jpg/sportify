@@ -89,6 +89,7 @@ function parseSizes(body) {
 }
 
 function normalizeProductBody(body, file, oldImage) {
+  //editing a product's image whether there is a new image upload or an old one
   const image = file ? "/uploads/" + file.filename : (oldImage || body.imageUrl || "").trim();
   const category = String(body.category || "").toLowerCase().trim();
   const type = String(body.type || "apparel").toLowerCase().trim();
@@ -98,6 +99,7 @@ function normalizeProductBody(body, file, oldImage) {
   }
 
   const sizes = parseSizes(body);
+  //calculates total stock
   const stock = sizes.reduce((sum, s) => sum + (Number(s.stock) || 0), 0);
 
   return {
