@@ -32,3 +32,4 @@ exports.lookupActivePromo = async function lookupActivePromo(code) {
   if (!promo) return null;
   return { code: promo.code, discountPercent: promo.discountPercent };
 };
+// de API endpoint, called by js , checkout page
