@@ -210,7 +210,7 @@ exports.putEditProduct = async (req, res, next) => {
     const payload = normalizeProductBody(req.body, req.file, existing.image);
 //deletes the old image
     if (req.file) unlinkUpload(existing.image);
-
+                                                              //returns the updated values&&keeps the validation
     await Product.findByIdAndUpdate(req.params.id, payload, { new: true, runValidators: true });
     req.session.success = "Product updated successfully.";
     res.redirect("/admin/products");
