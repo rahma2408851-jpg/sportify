@@ -143,7 +143,7 @@ exports.getDashboard = async (req, res, next) => {
   }
 };
 
-/* ============ PRODUCTS ============ */
+//PRODUCTS
 exports.getProducts = async (req, res, next) => {
   try {
     const { items: products, page, pages } = await paginate(Product, req);
