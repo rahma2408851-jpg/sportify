@@ -143,7 +143,7 @@ exports.getDashboard = async (req, res, next) => {
   }
 };
 
-//PRODUCTS
+//shows the products for the admin
 exports.getProducts = async (req, res, next) => {
   try {
     //strores items in products
