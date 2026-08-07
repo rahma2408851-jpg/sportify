@@ -120,7 +120,7 @@ function normalizeProductBody(body, file, oldImage) {
 
 exports.requireDb = (req, res, next) => next();
 
-/* ============ DASHBOARD ============ */
+//DASHBOARD
 exports.getDashboard = async (req, res, next) => {
   try {
     const [productCount, orderCount, userCount, pendingOrders] = await Promise.all([
@@ -129,7 +129,7 @@ exports.getDashboard = async (req, res, next) => {
       User.countDocuments(),
       Order.countDocuments({ status: "pending" })
     ]);
-
+// 5 most recent orders
     const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5).populate("user", "name email");
 
     res.render("admin/dashboard", {
