@@ -1,5 +1,5 @@
 const PromoCode = require("../models/PromoCode");
-
+                      // ay code:url or query or whatever
 function normalizeCode(raw) {
   return String(raw || "")
     .replace(/[\s\u200b-\u200d\ufeff\u00a0]/g, "")
