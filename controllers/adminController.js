@@ -345,7 +345,7 @@ exports.putEditPromo = async (req, res, next) => {
 
 exports.deletePromo = makeDeleteHandler(PromoCode, "/admin/promos", { successMessage: "Promo code deleted." });
 
-/* ============ USERS (super admin) ============ */
+//USERS (super admin)
 exports.getUsers = async (req, res, next) => {
   try {
     const { items: users, page, pages } = await paginate(User, req);
