@@ -180,7 +180,7 @@ exports.postAddProduct = async (req, res, next) => {
     handleAdminError(req, res, next, "/admin/products/new", err);
   }
 };
-
+//btgeb el data bs, nothing changes
 exports.getEditProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
