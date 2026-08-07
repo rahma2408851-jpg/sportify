@@ -168,10 +168,11 @@ exports.getAddProduct = (req, res) => {
     mode: "add"
   });
 };
-
+//after clicking submit
 exports.postAddProduct = async (req, res, next) => {
   try {
     const payload = normalizeProductBody(req.body, req.file);
+    //creates new document
     await Product.create(payload);
     req.session.success = "Product created successfully.";
     res.redirect("/admin/products");
