@@ -198,7 +198,7 @@ exports.getEditProduct = async (req, res, next) => {
     next(err);
   }
 };
-
+//bt3ml actual edits
 exports.putEditProduct = async (req, res, next) => {
   try {
     const existing = await Product.findById(req.params.id);
