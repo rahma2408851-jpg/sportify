@@ -6,7 +6,7 @@ const Order = require("../models/Order");
 const User = require("../models/User");
 const PromoCode = require("../models/PromoCode");
 
-/* ============ SHARED HELPERS ============ */
+// btshof el errors
 
 function handleAdminError(req, res, next, errorRedirect, err) {
   if (!err) return res.redirect(errorRedirect);
@@ -36,14 +36,14 @@ function handleAdminError(req, res, next, errorRedirect, err) {
   return res.redirect(errorRedirect);
 }
 
-// Deletes a file under /public if it looks like an upload. Fire-and-forget, same as before.
+// Deletes an old image from file disk
 function unlinkUpload(imagePath) {
   if (imagePath && imagePath.startsWith("/uploads/")) {
     fs.unlink(path.join(__dirname, "..", "public", imagePath), () => {});
   }
 }
 
-// Shared pagination for the three admin list pages (products/orders/users).
+// bt2sm el elements 3la el pages.
 async function paginate(Model, req, { populate, limit = 10, sort = { createdAt: -1 } } = {}) {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const total = await Model.countDocuments();
@@ -67,8 +67,8 @@ function makeDeleteHandler(Model, redirectPath, { successMessage, onDeleted } = 
   };
 }
 
-/* ============ PRODUCT-SPECIFIC HELPERS ============ */
 
+//converts the sizes entered by the form into an array of objects
 function parseSizes(body) {
   const sizes = [];
   if (!body.sizes) return sizes;
@@ -76,6 +76,7 @@ function parseSizes(body) {
   const raw = Array.isArray(body.sizes) ? body.sizes : Object.values(body.sizes);
 
   raw.forEach((row) => {
+    //skips the row if its missing a size value or its empty
     if (!row || !row.size) return;
     sizes.push({
       size: String(row.size).toUpperCase().trim(),
