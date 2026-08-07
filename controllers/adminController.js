@@ -208,7 +208,7 @@ exports.putEditProduct = async (req, res, next) => {
     }
 
     const payload = normalizeProductBody(req.body, req.file, existing.image);
-
+//deletes the old image
     if (req.file) unlinkUpload(existing.image);
 
     await Product.findByIdAndUpdate(req.params.id, payload, { new: true, runValidators: true });
