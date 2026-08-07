@@ -223,7 +223,7 @@ exports.deleteProduct = makeDeleteHandler(Product, "/admin/products", {
   successMessage: "Product deleted successfully.",
   onDeleted: (product) => product && unlinkUpload(product.image)
 });
-
+//hides or unhides a product 
 exports.toggleProductHidden = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
