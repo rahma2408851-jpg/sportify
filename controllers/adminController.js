@@ -354,7 +354,7 @@ exports.getUsers = async (req, res, next) => {
     next(err);
   }
 };
-
+//add user
 exports.getAddUser = (req, res) => {
   res.render("admin/userForm", { title: "Add staff account · Sportify Admin", activePage: "admin", targetUser: null });
 };
@@ -362,6 +362,15 @@ exports.getAddUser = (req, res) => {
 exports.postAddUser = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
+    const finalRole = role || "user";
+
+    if (finalRole === "superadmin") {
+      const existingSuperAdmin = await User.findOne({ role: "superadmin" });
+      if (existingSuperAdmin) {
+        req.session.error = "Only one super admin is allowed.";
+        return res.redirect("/admin/users/new");
+      }
+    }
     const hashed = await bcrypt.hash(password, 12);
     await User.create({ name, email: email.toLowerCase(), password: hashed, role: role || "user" });
     req.session.success = "User created successfully.";
@@ -370,7 +379,7 @@ exports.postAddUser = async (req, res, next) => {
     handleAdminError(req, res, next, "/admin/users/new", err);
   }
 };
-
+//edit user
 exports.getEditUser = async (req, res, next) => {
   try {
     const targetUser = await User.findById(req.params.id);
@@ -387,6 +396,24 @@ exports.getEditUser = async (req, res, next) => {
 exports.putEditUser = async (req, res, next) => {
   try {
     const { name, email, role, password } = req.body;
+    if (
+      String(req.params.id) === String(req.session.user.id) &&
+      role !== req.session.user.role
+    ) {
+      req.session.error = "You cannot change your own role.";
+      return res.redirect(`/admin/users/${req.params.id}/edit`);
+    }
+
+    if (role === "superadmin") {
+      const existingSuperAdmin = await User.findOne({
+        role: "superadmin",
+        _id: { $ne: req.params.id }
+      });
+      if (existingSuperAdmin) {
+        req.session.error = "Only one super admin is allowed.";
+        return res.redirect(`/admin/users/${req.params.id}/edit`);
+      }
+    }
     const update = { name, email: email.toLowerCase(), role };
     if (password) {
       update.password = await bcrypt.hash(password, 12);
@@ -398,7 +425,7 @@ exports.putEditUser = async (req, res, next) => {
     handleAdminError(req, res, next, `/admin/users/${req.params.id}/edit`, err);
   }
 };
-
+//delete user
 exports.deleteUser = async (req, res, next) => {
   try {
     if (String(req.params.id) === String(req.session.user.id)) {
