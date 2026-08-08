@@ -362,15 +362,7 @@ exports.getAddUser = (req, res) => {
 exports.postAddUser = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
-    const finalRole = role || "user";
-
-    if (finalRole === "superadmin") {
-      const existingSuperAdmin = await User.findOne({ role: "superadmin" });
-      if (existingSuperAdmin) {
-        req.session.error = "Only one super admin is allowed.";
-        return res.redirect("/admin/users/new");
-      }
-    }
+ 
     const hashed = await bcrypt.hash(password, 12);
     await User.create({ name, email: email.toLowerCase(), password: hashed, role: role || "user" });
     req.session.success = "User created successfully.";
@@ -396,24 +388,7 @@ exports.getEditUser = async (req, res, next) => {
 exports.putEditUser = async (req, res, next) => {
   try {
     const { name, email, role, password } = req.body;
-    if (
-      String(req.params.id) === String(req.session.user.id) &&
-      role !== req.session.user.role
-    ) {
-      req.session.error = "You cannot change your own role.";
-      return res.redirect(`/admin/users/${req.params.id}/edit`);
-    }
-
-    if (role === "superadmin") {
-      const existingSuperAdmin = await User.findOne({
-        role: "superadmin",
-        _id: { $ne: req.params.id }
-      });
-      if (existingSuperAdmin) {
-        req.session.error = "Only one super admin is allowed.";
-        return res.redirect(`/admin/users/${req.params.id}/edit`);
-      }
-    }
+    
     const update = { name, email: email.toLowerCase(), role };
     if (password) {
       update.password = await bcrypt.hash(password, 12);
